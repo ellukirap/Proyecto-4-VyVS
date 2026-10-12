@@ -22,11 +22,11 @@ Before(async function () {
 
 // Si el escenario falló, se adjunta una captura de pantalla al reporte HTML.
 After(async function (scenario) {
-  if (scenario.result.status === Status.FAILED) {
+  if (scenario.result.status === Status.FAILED && this.page) {
     const captura = await this.page.screenshot({ fullPage: true });
     this.attach(captura, 'image/png');
   }
-  await this.context.close();
+  if (this.context) await this.context.close();
 });
 
 AfterAll(async function () {

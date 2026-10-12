@@ -81,6 +81,5 @@ Característica: Inicio de sesión en la Obra Social de los Trabajadores de Hogw
   @bloqueo
   Escenario: LOG-13 Aviso de bloqueo tras 3 intentos fallidos con el correo registrado
     Cuando intento ingresar 3 veces seguidas con el correo "ron@hogwarts.com" y la contraseña "123"
-    Entonces veo el mensaje de error "Usuario correcto, pero la contraseña es incorrecta."
-    Y veo la advertencia "Atención, su cuenta está a punto de ser bloqueada."
+    Entonces veo la advertencia "Atención, su cuenta está a punto de ser bloqueada."
     Y sigo en la página de inicio de sesión

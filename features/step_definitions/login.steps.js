@@ -35,7 +35,7 @@ When('intento ingresar {int} veces seguidas con el correo {string} y la contrase
   async function (veces, correo, contrasena) {
     for (let intento = 1; intento <= veces; intento++) {
       await this.loginPage.iniciarSesion(correo, contrasena);
-      // cada intento tiene que haber sido rechazado antes de hacer el siguiente
+      // login() de la página es sincrónico: cuando click() termina, el intento ya se procesó.
       await expect(this.loginPage.mensajeError).not.toBeEmpty();
     }
   });
