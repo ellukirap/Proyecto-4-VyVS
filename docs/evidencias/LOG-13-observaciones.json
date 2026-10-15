@@ -1,0 +1,41 @@
+{
+  "executedAt": "2026-10-12T04:46:40.268Z",
+  "clientDate": "2026-10-12",
+  "timezone": "America/Buenos_Aires",
+  "mode": "headed diagnostic; supplementary to unchanged LOG-13",
+  "url": "https://cs.uns.edu.ar/~mll/temp/testing/hogwarts/login.html",
+  "node": "v24.21.0",
+  "expectedWarningAfterAttempt": 3,
+  "expectedWarning": "Atención, su cuenta está a punto de ser bloqueada.",
+  "publishedThreshold": 4,
+  "attempts": [
+    {
+      "attempt": 1,
+      "counter": 1,
+      "error": "Usuario correcto, pero la contraseña es incorrecta.",
+      "warning": "",
+      "url": "https://cs.uns.edu.ar/~mll/temp/testing/hogwarts/login.html"
+    },
+    {
+      "attempt": 2,
+      "counter": 2,
+      "error": "Usuario correcto, pero la contraseña es incorrecta.",
+      "warning": "",
+      "url": "https://cs.uns.edu.ar/~mll/temp/testing/hogwarts/login.html"
+    },
+    {
+      "attempt": 3,
+      "counter": 3,
+      "error": "Usuario correcto, pero la contraseña es incorrecta.",
+      "warning": "",
+      "url": "https://cs.uns.edu.ar/~mll/temp/testing/hogwarts/login.html"
+    },
+    {
+      "attempt": 4,
+      "counter": 4,
+      "error": "Usuario correcto, pero la contraseña es incorrecta.",
+      "warning": "Atención, su cuenta está a punto de ser bloqueada.",
+      "url": "https://cs.uns.edu.ar/~mll/temp/testing/hogwarts/login.html"
+    }
+  ]
+}

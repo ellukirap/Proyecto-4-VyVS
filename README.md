@@ -13,31 +13,63 @@ Sistema bajo prueba: <https://cs.uns.edu.ar/~mll/temp/testing/hogwarts/login.htm
 
 ## Requisitos
 
-- **Node.js 18 o superior** (probado con Node 24). Para verificarlo: `node -v`
+- **Node.js 24.x**. Para verificarlo: `node --version`
 - Conexión a internet (el sistema está publicado en el servidor de la cátedra)
 
 ## Instalación
 
 Desde la carpeta del proyecto (donde está este README):
 
-```bash
-npm install
+```powershell
+node --version
+npm.cmd --version
+npm.cmd ci
 ```
 
 Instala Cucumber y Playwright y, al terminar, **descarga el navegador Chromium
 automáticamente** (script `postinstall`). Si esa descarga fallara, se puede hacer a mano:
 
-```bash
-npx playwright install chromium
+```powershell
+npx.cmd playwright install chromium
 ```
 
 ## Ejecución
 
+Los comandos siguientes se ejecutan desde la raíz del repositorio en PowerShell.
+Se usa `npm.cmd` para no depender de la política de ejecución de scripts `.ps1`.
+
 | Comando | Qué hace |
 |---|---|
-| `npm test` | Corre los 13 casos sin mostrar el navegador |
-| `npm run test:visible` | Corre los 13 casos **mostrando el navegador**, en cámara lenta |
-| `npx cucumber-js --tags @bloqueo` | Corre sólo un grupo (`@exitoso`, `@campos-vacios`, `@correo-invalido`, `@credenciales-incorrectas`, `@bloqueo`) |
+| `npm.cmd run test:dry` | Valida Gherkin y asociación de pasos sin ejecutar el navegador |
+| `npm.cmd test` | Corre los 13 casos sin mostrar el navegador |
+| `npm.cmd run test:visible` | Corre los 13 casos **mostrando el navegador**, en cámara lenta |
+| `npm.cmd run test:visible -- --name LOG-01` | Corre LOG-01 con navegador visible |
+| `npm.cmd run test:visible -- --name LOG-05` | Corre LOG-05 con navegador visible |
+| `npm.cmd run test:visible -- --tags @bloqueo` | Corre LOG-13 con navegador visible |
+
+En un dry-run correcto los escenarios aparecen como `skipped`: se comprueba su
+asociación con las Step Definitions, sin ejecutar acciones ni hooks de navegador.
+
+### Seleccionar Node 24 en Windows
+
+Se puede instalar Node 24 desde <https://nodejs.org/en/download> y después cerrar
+y volver a abrir VS Code para renovar el `PATH`. Si el instalador detecta una
+versión superior y rechaza la instalación, desinstalar Node 25 desde Aplicaciones
+instaladas de Windows antes de instalar Node 24.
+
+Durante la validación se usó el ZIP oficial de Node 24.21.0, con SHA256 verificado,
+extraído en `.tools/`. Si esa carpeta sigue presente, seleccionar esa distribución
+para la terminal actual:
+
+```powershell
+$node24 = (Resolve-Path '.tools/node-v24.21.0-win-x64').Path
+$env:PATH = "$node24;$env:PATH"
+node --version
+npm.cmd --version
+```
+
+La selección dura hasta cerrar esa terminal. `.tools/` es una instalación local,
+se excluye de Git y del ZIP de entrega. Una copia limpia necesita Node 24 instalado.
 
 Al terminar se generan:
 
@@ -45,23 +77,16 @@ Al terminar se generan:
   que fallan incluyen una **captura de pantalla** del momento de la falla.
 - `reportes/reporte.json`: el mismo resultado en formato JSON.
 
-## Resultado esperado
+## Especificación y resultados de ejecución
 
-```
-13 scenarios (12 passed, 1 failed)
-```
+La especificación exige que los 13 casos cumplan sus resultados esperados. LOG-13
+debe mostrar `Atención, su cuenta está a punto de ser bloqueada.` al tercer intento
+con correo registrado y contraseña incorrecta. No se exige un bloqueo efectivo.
 
-**LOG-13 falla a propósito: el test detecta un defecto del sistema.**
-La especificación pide que, tras **tres** intentos seguidos con el correo correcto y la
-contraseña incorrecta, se advierta que la cuenta está a punto de ser bloqueada. El
-sistema muestra esa advertencia recién en el **cuarto** intento. El test verifica la
-especificación, no el comportamiento actual, y por eso falla:
-
-```
-Locator:  locator('#warning-message')
-Expected: "Atención, su cuenta está a punto de ser bloqueada."
-Received: ""
-```
+Los resultados comprobados, comandos y evidencia del defecto se documentan en
+[el informe de validación](docs/RESULTADOS_VALIDACION_PROYECTO4.md). Una falla de
+LOG-13 produce código de salida 1; no se ignora ni se cambia el esperado para
+hacer pasar la suite. Si Hogwarts se corrige, este escenario debería pasar.
 
 ## Estructura del proyecto
 
@@ -102,21 +127,21 @@ Ningún dato de prueba está escrito en el código JavaScript: todos vienen del 
 
 ## Trazabilidad con la tabla de casos
 
-| Caso | Correo | Contraseña | Se verifica | Resultado |
-|---|---|---|---|---|
-| LOG-01 | (vacío) | (vacío) | "Por favor, completa ambos campos." y no ingresa | ✅ |
-| LOG-02 | (vacío) | hermione2025 | "Por favor, completa ambos campos." y no ingresa | ✅ |
-| LOG-03 | (vacío) | 123 | "Por favor, completa ambos campos." y no ingresa | ✅ |
-| LOG-04 | ron@hogwarts.com | (vacío) | "Por favor, completa ambos campos." y no ingresa | ✅ |
-| LOG-05 | ron@hogwarts.com | hermione2025 | Redirige a la página de Bienvenida | ✅ |
-| LOG-06 | ron@hogwarts.com | 123 | "Usuario correcto, pero la contraseña es incorrecta." y no ingresa | ✅ |
-| LOG-07 | vyvs@mail.com | (vacío) | "Por favor, completa ambos campos." y no ingresa | ✅ |
-| LOG-08 | vyvs@mail.com | hermione2025 | "El usuario no es correcto." y no ingresa | ✅ |
-| LOG-09 | vyvs@mail.com | 123 | "El usuario no es correcto." y no ingresa | ✅ |
-| LOG-10 | harry.com | (vacío) | "Por favor, completa ambos campos." y no ingresa | ✅ |
-| LOG-11 | harry.com | hermione2025 | "Por favor, ingrese un correo electrónico válido." y no ingresa | ✅ |
-| LOG-12 | harry.com | 123 | "Por favor, ingrese un correo electrónico válido." y no ingresa | ✅ |
-| LOG-13 | ron@hogwarts.com ×3 | 123 ×3 | Advertencia de bloqueo tras el 3.er intento | ❌ defecto |
+| Caso | Correo | Contraseña | Se verifica |
+|---|---|---|---|
+| LOG-01 | (vacío) | (vacío) | "Por favor, completa ambos campos." y no ingresa |
+| LOG-02 | (vacío) | válida | "Por favor, completa ambos campos." y no ingresa |
+| LOG-03 | (vacío) | inválida | "Por favor, completa ambos campos." y no ingresa |
+| LOG-04 | registrado | (vacío) | "Por favor, completa ambos campos." y no ingresa |
+| LOG-05 | registrado | válida | Redirige a la página de Bienvenida |
+| LOG-06 | registrado | inválida | "Usuario correcto, pero la contraseña es incorrecta." y no ingresa |
+| LOG-07 | no registrado | (vacío) | "Por favor, completa ambos campos." y no ingresa |
+| LOG-08 | no registrado | válida | "El usuario no es correcto." y no ingresa |
+| LOG-09 | no registrado | inválida | "El usuario no es correcto." y no ingresa |
+| LOG-10 | formato inválido | (vacío) | "Por favor, completa ambos campos." y no ingresa |
+| LOG-11 | formato inválido | válida | "Por favor, ingrese un correo electrónico válido." y no ingresa |
+| LOG-12 | formato inválido | inválida | "Por favor, ingrese un correo electrónico válido." y no ingresa |
+| LOG-13 | registrado | inválida, tres intentos | Advertencia de bloqueo tras el 3.er intento |
 
 ### Decisiones tomadas
 
@@ -127,7 +152,22 @@ Ningún dato de prueba está escrito en el código JavaScript: todos vienen del 
 - **Texto exacto de los mensajes.** Se tomaron del código de la página. En LOG-08 y LOG-09
   el sistema muestra "El usuario no es correcto." (con punto final), aunque la tabla lo
   registra sin el punto.
-- **Aislamiento.** Cada escenario corre en un contexto de navegador nuevo, para que el
-  contador de intentos fallidos de un caso no afecte a otro.
+- **Aislamiento.** Cada escenario corre en un contexto y página nuevos. Esto aísla
+  cookies, almacenamiento y el contador local del login actual; no reinicia un
+  eventual contador del servidor.
 - **Page Object Model.** Los localizadores están sólo en `pages/`: si cambia la interfaz,
   se modifica un único archivo y los escenarios no cambian.
+
+## Datos de prueba y entrega
+
+Se mantienen los datos oficiales del entorno docente en Gherkin para conservar los
+13 casos y el pasaje de parámetros. No utilizar credenciales personales. No se
+replica la contraseña válida en esta documentación. Los reportes contienen los
+datos de los escenarios: son locales, están excluidos de Git y no deben publicarse
+innecesariamente. `.env` y `.env.*` también están excluidos.
+
+Antes de entregar, completar comisión e integrantes y comprobar la reproducción
+desde una carpeta limpia con Node 24, `npm.cmd ci` y los comandos anteriores.
+Incluir `cucumber.json`, `package-lock.json`, features, pages, README e informe;
+excluir `.git/`, `.tools/`, `node_modules/`, `.env` y los reportes completos.
+La evidencia acotada del defecto se encuentra en `docs/evidencias/`.

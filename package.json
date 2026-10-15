@@ -5,6 +5,7 @@
   "private": true,
   "scripts": {
     "test": "cucumber-js",
+    "test:dry": "cucumber-js --dry-run",
     "test:visible": "cucumber-js --profile visible",
     "postinstall": "playwright install chromium"
   },
@@ -13,6 +14,6 @@
     "@playwright/test": "^1.64.0"
   },
   "engines": {
-    "node": ">=18"
+    "node": "24.x"
   }
 }

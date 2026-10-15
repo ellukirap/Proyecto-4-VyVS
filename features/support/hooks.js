@@ -13,20 +13,23 @@ Before(async function () {
     const { headless, slowMo } = this.parameters;
     browser = await chromium.launch({ headless, slowMo });
   }
-  // Cada escenario usa un contexto nuevo (como una ventana de incógnito):
-  // no comparte estado con los demás. Así el contador de intentos fallidos
-  // de un caso no se suma al de otro.
+  // Cada escenario usa un contexto nuevo y abre otra página: no comparte
+  // cookies, almacenamiento ni el contador local del login actual.
+  // Esto no reinicia contadores que pudieran persistir en el servidor.
   this.context = await browser.newContext();
   this.page = await this.context.newPage();
 });
 
 // Si el escenario falló, se adjunta una captura de pantalla al reporte HTML.
 After(async function (scenario) {
-  if (scenario.result.status === Status.FAILED && this.page) {
-    const captura = await this.page.screenshot({ fullPage: true });
-    this.attach(captura, 'image/png');
+  try {
+    if (scenario.result.status === Status.FAILED && this.page) {
+      const captura = await this.page.screenshot({ fullPage: true });
+      await this.attach(captura, 'image/png');
+    }
+  } finally {
+    if (this.context) await this.context.close();
   }
-  if (this.context) await this.context.close();
 });
 
 AfterAll(async function () {

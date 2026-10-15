@@ -1,0 +1,85 @@
+{
+  "clientDate": "2026-10-12",
+  "timezone": "America/Buenos_Aires",
+  "node": "v24.21.0",
+  "cucumber": "13.3.0",
+  "playwright": "1.64.0",
+  "profile": "default (headless)",
+  "command": "npm.cmd test",
+  "exitCode": 1,
+  "passed": 12,
+  "failed": 1,
+  "source": "reportes/suite-headless.json",
+  "scenarios": [
+    {
+      "id": "LOG-01",
+      "status": "passed",
+      "failedSteps": []
+    },
+    {
+      "id": "LOG-02",
+      "status": "passed",
+      "failedSteps": []
+    },
+    {
+      "id": "LOG-03",
+      "status": "passed",
+      "failedSteps": []
+    },
+    {
+      "id": "LOG-04",
+      "status": "passed",
+      "failedSteps": []
+    },
+    {
+      "id": "LOG-05",
+      "status": "passed",
+      "failedSteps": []
+    },
+    {
+      "id": "LOG-06",
+      "status": "passed",
+      "failedSteps": []
+    },
+    {
+      "id": "LOG-07",
+      "status": "passed",
+      "failedSteps": []
+    },
+    {
+      "id": "LOG-08",
+      "status": "passed",
+      "failedSteps": []
+    },
+    {
+      "id": "LOG-09",
+      "status": "passed",
+      "failedSteps": []
+    },
+    {
+      "id": "LOG-10",
+      "status": "passed",
+      "failedSteps": []
+    },
+    {
+      "id": "LOG-11",
+      "status": "passed",
+      "failedSteps": []
+    },
+    {
+      "id": "LOG-12",
+      "status": "passed",
+      "failedSteps": []
+    },
+    {
+      "id": "LOG-13",
+      "status": "failed",
+      "failedSteps": [
+        {
+          "name": "veo la advertencia \"Atención, su cuenta está a punto de ser bloqueada.\"",
+          "message": "Error: expect(locator).toHaveText(expected) failed"
+        }
+      ]
+    }
+  ]
+}
