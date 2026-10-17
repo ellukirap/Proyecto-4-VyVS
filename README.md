@@ -1,7 +1,7 @@
 # Proyecto 4 — Testing Funcional Automatizado del Login
 
 **Verificación y Validación de Software · DCIC-UNS · 2026**
-Comisión: `__` · Integrantes: `__________` · `__________`
+Comisión: `25` · Integrantes: `Nicolás Mérida` · `Lucas Solmoni`
 
 Automatización de **todos los casos de test del Login** de la Obra Social de los
 Trabajadores de Hogwarts (tabla *Casos de test-Login*, LOG-01 a LOG-13).
