@@ -4,9 +4,7 @@
     "require": ["features/**/*.js"],
     "format": [
       "progress-bar",
-      "summary",
-      "html:reportes/reporte.html",
-      "json:reportes/reporte.json"
+      "summary"
     ],
     "worldParameters": {
       "urlLogin": "https://cs.uns.edu.ar/~mll/temp/testing/hogwarts/login.html",
@@ -19,9 +17,7 @@
     "require": ["features/**/*.js"],
     "format": [
       "progress-bar",
-      "summary",
-      "html:reportes/reporte.html",
-      "json:reportes/reporte.json"
+      "summary"
     ],
     "worldParameters": {
       "urlLogin": "https://cs.uns.edu.ar/~mll/temp/testing/hogwarts/login.html",

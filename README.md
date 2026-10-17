@@ -20,8 +20,6 @@ Comisión 25 · Nicolás Mérida · Lucas Solmoni
    ```
    Para ver el navegador mientras se ejecutan: `npm run test:visible`
 
-El reporte queda en `reportes/reporte.html`.
-
 ## Resultado esperado
 
 ```

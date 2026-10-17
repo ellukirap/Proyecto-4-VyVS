@@ -1,4 +1,4 @@
-const { Before, After, AfterAll, Status, setDefaultTimeout } = require('@cucumber/cucumber');
+const { Before, After, AfterAll, setDefaultTimeout } = require('@cucumber/cucumber');
 const { chromium } = require('@playwright/test');
 
 // Cucumber corta cada paso a los 5 s por defecto; cargar la página puede tardar más.
@@ -20,12 +20,7 @@ Before(async function () {
   this.page = await this.context.newPage();
 });
 
-// Si el escenario falló, se adjunta una captura de pantalla al reporte HTML.
-After(async function (scenario) {
-  if (scenario.result.status === Status.FAILED && this.page) {
-    const captura = await this.page.screenshot({ fullPage: true });
-    this.attach(captura, 'image/png');
-  }
+After(async function () {
   if (this.context) await this.context.close();
 });
 
